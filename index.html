@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/rpg.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>じゃんけんゲーム</h1>
+    <div id="game">
+        <div id="character-selection">
+            <h2>キャラクターを選択してください</h2>
+            <button class="character" data-name="勇者">勇者</button>
+            <button class="character" data-name="魔法使い">魔法使い</button>
+            <button class="character" data-name="戦士">戦士</button>
+        </div>
+        <div id="battlefield">
+            <div id="player-area">
+                <h2 id="player-name"></h2>
+                <img id="player-image" src="勇者たち.png" alt="Player">
+            </div>
+            <div id="enemy-area">
+                <h2>敵</h2>
+                <img src="敵.png" alt="Enemy">
+            </div>
+            <div id="controls">
+                <button id="rock">グー</button>
+                <button id="scissors">チョキ</button>
+                <button id="paper">パー</button>
+            </div>
+        </div>
+        <div id="result"></div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    document.querySelectorAll('.character').forEach(button => {
+    button.addEventListener('click', function() {
+        selectCharacter(this.dataset.name);
+    });
+});
+
+function selectCharacter(characterName) {
+    document.getElementById('player-name').textContent = characterName;
+    document.getElementById('player-image').src =argumentsCharacterName.toLowerCase() + '.png'; // 画像はキャラクター名に基づいています
+    document.getElementById('battlefield').style.display = 'block';
+}
+
+document.getElementById('rock').addEventListener('click', () => play('グー'));
+document.getElementById('scissors').addEventListener('click', () => play('チョキ'));
+document.getElementById('paper').addEventListener('click', () => play('パー'));
+
+function play(userChoice) {
+    const choices = ['グー', 'チョキ', 'パー'];
+    const computerChoice = choices[Math.floor(Math.random() * 3)];
+    const result = determineWinner(userChoice, computerChoice);
+    displayResult(userChoice, computerChoice, result);
+}
+
+function determineWinner(user, computer) {
+    if (user === computer) {
+        return '引き分け';
+    } else if (
+        (user === 'グー' && computer === 'チョキ') ||
+        (user === 'チョキ' && computer === 'パー') ||
+        (user === 'パー' && computer === 'グー')
+    ) {
+        return '勝ち';
+    } else {
+        return '負け';
+    }
+}
+
+function displayResult(userChoice, computerChoice, result) {
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `キャラクターの選択: ${userChoice} <br> 敵の選択: ${computerChoice} <br> 結果: ${result}`;
+}
+
+</script>
+</html>
